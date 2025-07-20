@@ -9,16 +9,33 @@ on:
     branches:
       - main
   
-jobs:
-  test:
-    name: Run tests with Python 3.13
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.13.5'
-      - run: python --version
-      - run: python -m pip install -r requirements.txt
-      - run: pytest
+
+      jobs:
+        run-test:
+          runs-on: ubuntu-latest
+      
+          steps:
+          - name: Checkout repository
+            uses: actions/checkout@v4
+      
+          - name: Set up Python
+            uses: actions/setup-python@v5
+            with:
+              python-version: '3.13.5'
+      
+          - name: Install dependencies
+            run: |
+              pip install -r requirements.txt
+      
+          - name: Install Chrome and ChromeDriver
+            run: |
+              sudo apt-get update
+              sudo apt-get install -y wget unzip xvfb
+              wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+              sudo apt install -y ./google-chrome-stable_current_amd64.deb
+              pip install chromedriver-autoinstaller
+      
+          - name: Run the test
+            run: python3 main.py
+
       
