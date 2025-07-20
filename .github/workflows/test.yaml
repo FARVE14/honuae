@@ -31,7 +31,7 @@ jobs:
         pip install chromedriver-autoinstaller
 
     - name: Run the test
-      run: xvfb-run python main.py
+      run: python3 main.py
 
     - name: Upload result
       uses: actions/upload-artifact@v4
