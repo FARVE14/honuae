@@ -1,0 +1,40 @@
+name: Daily Website Load Time Test
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # Runs every day at 2 AM UTC
+  workflow_dispatch:     # Allows manual trigger
+
+jobs:
+  run-test:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.13.5'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Install Chrome and ChromeDriver
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y wget unzip xvfb
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo apt install -y ./google-chrome-stable_current_amd64.deb
+        pip install chromedriver-autoinstaller
+
+    - name: Run the test
+      run: xvfb-run python3 main.py
+
+    - name: Upload result
+      uses: actions/upload-artifact@v3
+      with:
+        name: load-test-graph
+        path: load_times.png
