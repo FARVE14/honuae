@@ -56,5 +56,5 @@ def plot_results(load_times, url):
 url_to_test = "https://www.honuae.com"
 num_attempts = 2
 
-# measure_browser_load_times(url_to_test, num_attempts)
-# plot_results(load_times, url_to_test)
+load_times = measure_browser_load_times(url_to_test, num_attempts)
+plot_results(load_times, url_to_test)
