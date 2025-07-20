@@ -3,13 +3,16 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 import time
 import matplotlib.pyplot as plt
+import chromedriver_autoinstaller
 
 def setup_driver():
+    chromedriver_autoinstaller.install()
+
     options = Options()
-    options.add_argument("--headless")  # Run in background
-    options.add_argument("--disable-cache")
-    options.add_argument("--disable-application-cache")
-    options.add_argument("--incognito")  # Helps simulate cache-less state
+    options.add_argument("--headless=new")  # new headless mode is more stable
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
 
     driver = webdriver.Chrome(options=options)
     return driver
@@ -54,7 +57,7 @@ def plot_results(load_times, url):
 
 # Example usage
 url_to_test = "https://www.honuae.com"
-num_attempts = 2
+num_attempts = 10
 
 load_times = measure_browser_load_times(url_to_test, num_attempts)
 plot_results(load_times, url_to_test)
