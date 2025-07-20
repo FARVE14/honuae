@@ -34,7 +34,7 @@ jobs:
       run: xvfb-run python3 main.py
 
     - name: Upload result
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: load-test-graph
         path: load_times.png
