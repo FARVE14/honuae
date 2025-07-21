@@ -15,6 +15,7 @@ jobs:
           "https://www.honuae.com/",
           "https://faisalahmed.streamlit.app/"
         ]
+        attempts: [ 20, 2]
 
     steps:
     - name: Checkout repository
@@ -41,8 +42,8 @@ jobs:
       env:
         SENDER_EMAIL: ${{ secrets.EMAIL_USER }}
         APP_PASSWORD: ${{ secrets.EMAIL_PASS }}
-        NO_OF_ATTEMPTS: 5
-        RECIPIENT_EMAIL: faisalg2006@gmail.com,faisalec1992@gmail.com
+        NO_OF_ATTEMPTS: "${{ matrix.attempts }}"
+        RECIPIENT_EMAIL: ${{ vars.RECIPIENT_EMAIL }}
         GIT_REPO_LINK: https://github.com/FARVE14/honuae
       run: python3 main.py "${{ matrix.site }}"
 
