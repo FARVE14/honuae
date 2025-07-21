@@ -5,6 +5,7 @@
 __author__ = "Faisal Ahmed"
 
 import os
+import sys
 from dotenv import load_dotenv
 from pathlib import Path
 from src import *
@@ -22,8 +23,12 @@ def main() -> None:
     graph_path = results_path / "load_times.png"
     graph_path = graph_path.absolute().as_posix()
 
-    host_url = os.getenv("HOST_URL", "https://www.google.com")
-    no_of_attempts = os.getenv("NO_OF_ATTEMPTS", 1)
+    # host_url = os.getenv("HOST_URL", "https://www.google.com")
+    host_url = sys.argv[1] if len(sys.argv) > 1 else "https://www.google.com"
+
+    no_of_attempts = os.getenv("NO_OF_ATTEMPTS", 5)
+    print(f"* Running the {host_url} graph on {no_of_attempts} attempts...")
+
     load_times = measure_browser_load_time(
         host_url=host_url,
         no_of_attempts=int(no_of_attempts)

@@ -13,8 +13,8 @@ def calculate_time_parameters(time_array: list[float]) -> dict:
     """
     valid_times = [t for t in time_array if t is not None]
     mean_time = sum(valid_times) / len(valid_times) if valid_times else 0
-    max_time = max(valid_times)
-    min_time = min(valid_times)
+    max_time = max(valid_times) if valid_times else 0
+    min_time = min(valid_times) if valid_times else 0
 
     return {
         "valid_times": valid_times,

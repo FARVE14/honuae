@@ -1,4 +1,4 @@
-name: Daily Website Load Time Test
+name: Daily Website Load Time Monitor
 
 on:
   schedule:
@@ -8,6 +8,13 @@ on:
 jobs:
   run-test:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        site: [
+          "https://www.honuae.com/",
+          "https://faisalahmed.streamlit.app/"
+        ]
 
     steps:
     - name: Checkout repository
@@ -31,7 +38,13 @@ jobs:
         pip install chromedriver-autoinstaller
 
     - name: Run the test
-      run: python3 main.py
+      env:
+        SENDER_EMAIL: ${{ secrets.EMAIL_USER }}
+        APP_PASSWORD: ${{ secrets.EMAIL_PASS }}
+        NO_OF_ATTEMPTS: 5
+        RECIPIENT_EMAIL: faisalg2006@gmail.com,faisalec1992@gmail.com
+        GIT_REPO_LINK: https://github.com/FARVE14/honuae
+      run: python3 main.py "${{ matrix.site }}"
 
     - name: Upload result
       uses: actions/upload-artifact@v4
