@@ -41,13 +41,18 @@ jobs:
       env:
         SENDER_EMAIL: ${{ secrets.EMAIL_USER }}
         APP_PASSWORD: ${{ secrets.EMAIL_PASS }}
-        NO_OF_ATTEMPTS: 5
-        RECIPIENT_EMAIL: faisalg2006@gmail.com,faisalec1992@gmail.com
+        NO_OF_ATTEMPTS: ${{ vars.RECIPIENT_EMAIL }}
+        RECIPIENT_EMAIL: ${{ vars.NO_OF_ATTEMPTS }}
         GIT_REPO_LINK: https://github.com/FARVE14/honuae
       run: python3 main.py "${{ matrix.site }}"
+
+    - name: Sanitize URL for artifact name
+      run: |
+        SAFE_NAME=$(echo "${{ matrix.site }}" | sed -e 's~https\?://~~' -e 's/[^a-zA-Z0-9]/-/g')
+        echo "SAFE_NAME=$SAFE_NAME" >> $GITHUB_ENV
 
     - name: Upload result
       uses: actions/upload-artifact@v4
       with:
-        name: "load-report-${{ matrix.site }}"
+        name: "load-report-${{ env.SAFE_NAME }}"
         path: .results/load_times.png
