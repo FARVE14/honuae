@@ -1,63 +1,48 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-import time
-import matplotlib.pyplot as plt
-import chromedriver_autoinstaller
+"""
 
-def setup_driver():
-    chromedriver_autoinstaller.install()
+"""
 
-    options = Options()
-    options.add_argument("--headless=new")  # new headless mode is more stable
-    options.add_argument("--disable-gpu")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
+__author__ = "Faisal Ahmed"
 
-    driver = webdriver.Chrome(options=options)
-    return driver
+import os
+from dotenv import load_dotenv
+from pathlib import Path
+from src import *
 
-def measure_browser_load_times(url, n):
-    load_times = []
 
-    for i in range(n):
-        driver = setup_driver()  # New session simulates cleared cache
-        try:
-            print(f"Attempt {i + 1}...", end=' ')
-            start = time.time()
-            driver.get(url)
-            driver.execute_script("return document.readyState")  # Ensure page is loaded
-            load_time = time.time() - start
-            load_times.append(load_time)
-            print(f"Loaded in {load_time:.2f} seconds")
-        except Exception as e:
-            print(f"Error: {e}")
-            load_times.append(None)
-        finally:
-            driver.quit()
+def main() -> None:
+    """
 
-    return load_times
+    """
+    load_dotenv()
+    current_working_directory = Path().absolute()
+    results_path = current_working_directory / ".results"
+    results_path.mkdir(parents=True, exist_ok=True)
 
-def plot_results(load_times, url):
-    valid_times = [t for t in load_times if t is not None]
-    mean_time = sum(valid_times) / len(valid_times) if valid_times else 0
+    graph_path = results_path / "load_times.png"
+    graph_path = graph_path.absolute().as_posix()
 
-    plt.figure(figsize=(10, 5))
-    plt.plot(range(1, len(load_times)+1), load_times, marker='o', color='blue')
-    plt.axhline(y=mean_time, color='red', linestyle='--', label=f'Mean = {mean_time:.2f}s')
-    plt.title(f"Browser Load Time Test for {url}")
-    plt.xlabel("Attempt Number")
-    plt.ylabel("Load Time (seconds)")
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
-    # plt.show()
-    plt.savefig("load_times.png")
-    print(f"\nMean Load Time: {mean_time:.2f} seconds")
+    host_url = os.getenv("HOST_URL")
+    no_of_attempts = os.getenv("NO_OF_ATTEMPTS")
+    load_times = measure_browser_load_time(
+        host_url=host_url,
+        no_of_attempts=int(no_of_attempts)
+    )
 
-# Example usage
-url_to_test = "https://www.honuae.com"
-num_attempts = 10
+    time_parameters = plot_results(
+        load_times=load_times,
+        host_url=host_url,
+        output_graph_path=graph_path
+    )
 
-load_times = measure_browser_load_times(url_to_test, num_attempts)
-plot_results(load_times, url_to_test)
+    send_email_with_attachment(
+        time_dict=time_parameters,
+        host_url=host_url,
+        no_of_attempts=int(no_of_attempts),
+        file_path=graph_path
+
+    )
+
+
+if __name__ == '__main__':
+    main()

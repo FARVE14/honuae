@@ -2,7 +2,7 @@ name: Daily Website Load Time Test
 
 on:
   schedule:
-    - cron: '0 2 * * *' # Runs every day at 2 AM UTC
+    - cron: '0 5 * * *' # Runs every day at 5 AM UTC
   workflow_dispatch:     # Allows manual trigger
 
 jobs:
@@ -37,4 +37,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: load-test-graph
-        path: load_times.png
+        path: .results/load_times.png
