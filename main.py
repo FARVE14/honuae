@@ -51,8 +51,8 @@ def plot_results(load_times, url):
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
-    plt.show()
-
+    # plt.show()
+    plt.savefig("load_times.png")
     print(f"\nMean Load Time: {mean_time:.2f} seconds")
 
 # Example usage
