@@ -12,8 +12,8 @@ jobs:
     strategy:
       matrix:
         site: [
-          "https://www.honuae.com/",
-          "https://faisalahmed.streamlit.app/"
+          "https://www.honuae.com/"
+          # "https://faisalahmed.streamlit.app/"
         ]
 
     steps:
