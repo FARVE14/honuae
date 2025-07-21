@@ -49,5 +49,5 @@ jobs:
     - name: Upload result
       uses: actions/upload-artifact@v4
       with:
-        name: load-test-graph
+        name: "load-report-${{ matrix.site }}"
         path: .results/load_times.png
