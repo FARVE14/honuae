@@ -41,8 +41,8 @@ jobs:
       env:
         SENDER_EMAIL: ${{ secrets.EMAIL_USER }}
         APP_PASSWORD: ${{ secrets.EMAIL_PASS }}
-        NO_OF_ATTEMPTS: ${{ vars.RECIPIENT_EMAIL }}
-        RECIPIENT_EMAIL: ${{ vars.NO_OF_ATTEMPTS }}
+        NO_OF_ATTEMPTS: ${{ vars.NO_OF_ATTEMPTS }}
+        RECIPIENT_EMAIL: ${{ vars.RECIPIENT_EMAIL }}
         GIT_REPO_LINK: https://github.com/FARVE14/honuae
       run: python3 main.py "${{ matrix.site }}"
 
