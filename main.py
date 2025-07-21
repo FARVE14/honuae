@@ -22,8 +22,8 @@ def main() -> None:
     graph_path = results_path / "load_times.png"
     graph_path = graph_path.absolute().as_posix()
 
-    host_url = os.getenv("HOST_URL")
-    no_of_attempts = os.getenv("NO_OF_ATTEMPTS")
+    host_url = os.getenv("HOST_URL", "https://www.google.com")
+    no_of_attempts = os.getenv("NO_OF_ATTEMPTS", 1)
     load_times = measure_browser_load_time(
         host_url=host_url,
         no_of_attempts=int(no_of_attempts)
