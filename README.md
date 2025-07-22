@@ -147,3 +147,32 @@ For major feature ideas or questions, feel free to open an issue first to discus
 ---
 
 Looking forward to your contributions! ⭐
+
+---
+
+## 📜 Contribution Rules
+
+To maintain the quality and security of this project, we kindly ask all contributors to follow these rules when submitting pull requests:
+
+### ✅ Pull Request Requirements
+
+- Use **descriptive branch names** (e.g., `fix/load-time-bug`, `feature/add-dashboard`)
+- Ensure your code is **well-documented and tested**
+- Pull Requests must be **linked to an open issue** if applicable
+- All PRs should pass existing **CI workflows** and **linter checks**
+- Avoid committing directly to `main` or `master`
+
+### 🔐 Signed Commits
+
+We require **signed commits** to ensure the authenticity of contributions.  
+To sign a commit:
+
+```bash
+git commit -S -m "Your commit message"
+```
+
+Make sure you’ve [set up GPG signing](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits) in your GitHub account.
+
+---
+
+Thank you for helping keep this project high quality and secure!
